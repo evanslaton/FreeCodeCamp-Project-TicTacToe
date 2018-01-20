@@ -33,7 +33,7 @@ var winningCombos = [
 ];
 
 
-//Assigns click event to boxes and displays 'O'
+//Assigns click event to boxes and starts the game
 var boxes = document.getElementsByClassName('box');
 
 for (i = 0; i < boxes.length; i++) {
@@ -47,7 +47,7 @@ function playGame() {
   var addImageTo = clicked.firstElementChild;
 
   //Allows each box to be selected only once
-  if (!clicked.classList.contains('clicked')) {
+  if (!clicked.classList.contains('clicked') && !win) {
 
     if (playerOneTurn) {
       clicked.classList.add(playerOne);
@@ -57,7 +57,7 @@ function playGame() {
       fullBoard++;      
       checkWin(playerOne);
       playerOneTurn = false;
-      computerPlay(playerOne);
+      computerPlay(playerTwo);
     } else {
 
 
@@ -74,50 +74,53 @@ function playGame() {
 
 //Computer's turn
 var computerPlay = (ox) => {
-  setTimeout(function() {
-    var openBoxes = [];
-    var playHere;
-    var randomBox;
-    checkForWin = [];
 
-      for (i = 0; i < boxes.length; i++) {
-        if (!boxes[i].classList.contains('clicked')) {
-          openBoxes.push(boxes[i]);
-        }
-      }
+  if (!win) {
+    setTimeout(function() {
+      var openBoxes = [];
+      var playHere;
+      var randomBox;
+      checkForWin = [];
 
-      if (openBoxes.indexOf(four) !== -1 && openBoxes.length === 8) {
-        four.classList.add(playerTwo);
-        four.firstElementChild.src = playerTwoImg;
-        four.firstElementChild.style.display = 'block';
-        four.classList.add('clicked');
-      } else if (openBoxes.indexOf(four) === -1 && openBoxes.length === 8) {
-        zero.classList.add(playerTwo);
-        zero.firstElementChild.src = playerTwoImg;
-        zero.firstElementChild.style.display = 'block';
-        zero.classList.add('clicked'); 
-      } else if (openBoxes.length < 8) {
-
-        //Pushes all selected elements into checkForWin array
         for (i = 0; i < boxes.length; i++) {
-          if (boxes[i].classList.contains(ox)) {
-            if (checkForWin.indexOf(i) === -1) {
-              checkForWin.push(i);
-            }
+          if (!boxes[i].classList.contains('clicked')) {
+            openBoxes.push(boxes[i]);
           }
         }
 
-        randomBox = randomNumber(0, openBoxes.length -1);       
-        playHere = openBoxes[randomBox];
-        playHere.classList.add(playerTwo);
-        playHere.firstElementChild.src = playerTwoImg;
-        playHere.firstElementChild.style.display = 'block';
-        playHere.classList.add('clicked');
-      }
+        if (openBoxes.indexOf(four) !== -1 && openBoxes.length === 8) {
+          four.classList.add(playerTwo);
+          four.firstElementChild.src = playerTwoImg;
+          four.firstElementChild.style.display = 'block';
+          four.classList.add('clicked');
+        } else if (openBoxes.indexOf(four) === -1 && openBoxes.length === 8) {
+          zero.classList.add(playerTwo);
+          zero.firstElementChild.src = playerTwoImg;
+          zero.firstElementChild.style.display = 'block';
+          zero.classList.add('clicked'); 
+        } else if (openBoxes.length < 8) {
 
-      checkWin(playerTwo);
-      playerOneTurn = true;
-  }, 500);
+          //Pushes all selected elements into checkForWin array
+          for (i = 0; i < boxes.length; i++) {
+            if (boxes[i].classList.contains(ox)) {
+              if (checkForWin.indexOf(i) === -1) {
+                checkForWin.push(i);
+              }
+            }
+          }
+
+          randomBox = randomNumber(0, openBoxes.length -1);       
+          playHere = openBoxes[randomBox];
+          playHere.classList.add(playerTwo);
+          playHere.firstElementChild.src = playerTwoImg;
+          playHere.firstElementChild.style.display = 'block';
+          playHere.classList.add('clicked');
+        }
+
+        checkWin(playerTwo);
+        playerOneTurn = true;
+    }, 500);
+  }
 };
 
 
@@ -170,6 +173,11 @@ var stopGame = () => {
   for (i = 0; i < boxes.length; i++) {
     boxes[i].removeEventListener('click', playGame);
   }
+
+  win = true;
+
+
+
 };
 
 
