@@ -143,4 +143,5 @@ h1 {
   position: absolute;
   top: 12%;
   left: 15%;
+  display: none;
 }
