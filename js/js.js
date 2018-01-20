@@ -53,11 +53,10 @@ function playGame() {
       clicked.classList.add(playerOne);
       addImageTo.src = playerOneImg;
       clicked.classList.add('clicked');
-      addImageTo.style.display = 'block';  
-      fullBoard++;      
+      addImageTo.style.display = 'block';   
       checkWin(playerOne);
       playerOneTurn = false;
-      computerPlay(playerTwo);
+      computerPlay(playerOne);
     } else {
 
 
@@ -80,6 +79,8 @@ var computerPlay = (ox) => {
       var openBoxes = [];
       var playHere;
       var randomBox;
+      var toBePlayed;
+      var tempArr = [];
       checkForWin = [];
 
         for (i = 0; i < boxes.length; i++) {
@@ -109,13 +110,42 @@ var computerPlay = (ox) => {
             }
           }
 
-          randomBox = randomNumber(0, openBoxes.length -1);       
-          playHere = openBoxes[randomBox];
-          playHere.classList.add(playerTwo);
-          playHere.firstElementChild.src = playerTwoImg;
-          playHere.firstElementChild.style.display = 'block';
-          playHere.classList.add('clicked');
+          for (i = 0; i < winningCombos.length; i++) {
+            counter = 0;
+            for (j = 0; j < 3; j++) {
+              if (checkForWin.indexOf(winningCombos[i][j]) !== -1) {
+                counter++;
+                if (counter === 2) {
+                  tempArr = winningCombos[i];
+                  console.log('tempArr: ' + tempArr);
+                  console.log('checkForWin: ' + checkForWin);
+
+                  for (k = 0; k < tempArr.length; k++) {
+                    if (checkForWin.indexOf(tempArr[k]) === -1) {
+                      if (tempArr[k] !== 4) {
+                      toBePlayed = document.getElementById(tempArr[k]);
+                      toBePlayed.classList.add(playerTwo);
+                      toBePlayed.firstElementChild.src = playerTwoImg;
+                      toBePlayed.firstElementChild.style.display = 'block';
+                      toBePlayed.classList.add('clicked');
+                      console.log('toBePlayed: ' + toBePlayed.length);
+                      checkWin(playerTwo);
+                      playerOneTurn = true;
+                      return;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
+        // randomBox = randomNumber(0, openBoxes.length -1);       
+        // playHere = openBoxes[randomBox];
+        // playHere.classList.add(playerTwo);
+        // playHere.firstElementChild.src = playerTwoImg;
+        // playHere.firstElementChild.style.display = 'block';
+        // playHere.classList.add('clicked');
 
         checkWin(playerTwo);
         playerOneTurn = true;
@@ -134,6 +164,7 @@ function randomNumber(min, max) {
 var checkWin = (ox) => {
   checkForWin = [];
   counter = 0;
+  fullBoard++;
 
   //Pushes all selected elements into checkForWin array
   for (i = 0; i < boxes.length; i++) {
