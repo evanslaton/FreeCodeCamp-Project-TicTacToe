@@ -36,6 +36,7 @@ for (i = 0; i < boxes.length; i++) {
 var checkWin = () => {
   var checkForWin = [];
 
+  //Pushes all selected elements into checkForWin array
   for (i = 0; i < boxes.length; i++) {
     if (boxes[i].classList.contains('o')) {
       if (checkForWin.indexOf(i) === -1) {
@@ -44,7 +45,26 @@ var checkWin = () => {
     }
   }
 
-  console.log(checkForWin);
+  //Check for a win
+  for (i = 0; i < winningCombos.length; i++) {
+    var counter = 0;
+    for (j = 0; j < 3; j++) {
+      if (checkForWin.indexOf(winningCombos[i][j]) !== -1) {
+        counter++;
+        if (counter === 3) {
+          console.log('WIN!!!')
+        }
+      }
+    }
+  }
+
+  // console.log(checkForWin);
+  // console.log(checkForWin.indexOf(winningCombos[0][0]));
+
+
+
+
+
 };
 
 
