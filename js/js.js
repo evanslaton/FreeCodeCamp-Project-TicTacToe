@@ -22,10 +22,19 @@ for (i = 0; i < boxes.length; i++) {
   boxes[i].addEventListener('click', function() {
     var clicked = document.getElementById(this.id);
     var addImageTo = clicked.firstElementChild;
-    clicked.classList.add('o');
-    addImageTo.src = oImg;
     addImageTo.style.display = 'block';
-    checkWin();
+
+    if (playerOneTurn) {
+      clicked.classList.add('o');
+      addImageTo.src = oImg;
+      checkWin('o');
+      playerOneTurn = false;
+    } else {
+      clicked.classList.add('x');
+      addImageTo.src = xImg;
+      checkWin('x');
+      playerOneTurn = true;
+    }
   })
 }
 
@@ -33,12 +42,12 @@ for (i = 0; i < boxes.length; i++) {
 
 
 //Checks if a player has won
-var checkWin = () => {
+var checkWin = (n) => {
   var checkForWin = [];
 
   //Pushes all selected elements into checkForWin array
   for (i = 0; i < boxes.length; i++) {
-    if (boxes[i].classList.contains('o')) {
+    if (boxes[i].classList.contains(n)) {
       if (checkForWin.indexOf(i) === -1) {
         checkForWin.push(i);
       }
@@ -52,7 +61,7 @@ var checkWin = () => {
       if (checkForWin.indexOf(winningCombos[i][j]) !== -1) {
         counter++;
         if (counter === 3) {
-          console.log('WIN!!!')
+          console.log('Player ' + n + ' wins!')
         }
       }
     }
