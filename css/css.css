@@ -152,6 +152,35 @@ h1 {
   display: none !important;
 }
 
+.winner-is {
+  width: 99%;
+  margin: 0 auto;
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  font-size: 30px;
+  font-family: Galdeano, sans-serif;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, .95);
+  z-index: 1;
+}
+
+.winner-is:before {
+  content: "";
+  display: block;
+  padding-top: 100%;
+}
+
+.winner-declaration {
+  position: absolute;
+  top: 45%;
+  left: 0;
+  right: 0;
+}
+
 /* ===== Menu ===== */
 .menu {
   width: 100%;
