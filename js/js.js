@@ -10,7 +10,9 @@ var draw = false;
 var fullBoard = 0;
 var checkForWin = [];
 var happensOnce = true;
-var happensOnce2 = true;
+var onePlayer = true;
+var playerOneTurnKeeper = document.getElementById('player-one');
+var playerTwoTurnKeeper = document.getElementById('player-two');
 
 //Boxes
 var zero = document.getElementById('0');
@@ -58,6 +60,8 @@ function playGame() {
       addImageTo.style.display = 'block';   
       checkWin(playerOne);
       playerOneTurn = false;
+      playerOneTurnKeeper.classList.remove('visible-border');      
+      playerTwoTurnKeeper.classList.add('visible-border');
       computerPlay(playerOne, playerTwo);
     } else {
 
@@ -74,7 +78,7 @@ function playGame() {
 
 
 //Computer's turn
-var computerPlay = (playerOne, playerTwo) => {
+var computerPlay = (pOne, pTwo) => {
 
   if (!win) {
     setTimeout(function() {
@@ -105,7 +109,7 @@ var computerPlay = (playerOne, playerTwo) => {
 
           //Pushes all selected elements into checkForWin array
           for (i = 0; i < boxes.length; i++) {
-            if (boxes[i].classList.contains(playerOne)) {
+            if (boxes[i].classList.contains(pOne)) {
               if (checkForWin.indexOf(i) === -1) {
                 checkForWin.push(i);
               }
@@ -139,41 +143,6 @@ var computerPlay = (playerOne, playerTwo) => {
           }
         }
 
-        //Pushes all selected elements into checkForWin array
-        for (i = 0; i < boxes.length; i++) {
-          if (boxes[i].classList.contains(playerTwo)) {
-            if (checkForWin.indexOf(i) === -1) {
-              checkForWin.push(i);
-            }
-          }
-        }
-
-        for (i = 0; i < winningCombos.length; i++) {
-          counter = 0;
-          for (j = 0; j < 3; j++) {
-            if (checkForWin.indexOf(winningCombos[i][j]) !== -1 && !playerOneTurn) {
-              counter++;
-              if (counter === 2 && happensOnce2) {
-                tempArr = winningCombos[i];
-                for (k = 0; k < tempArr.length; k++) {
-                  if (checkForWin.indexOf(tempArr[k]) === -1) {
-                    if (tempArr[k] !== 4) {
-                      console.log('block win');
-                    toBePlayed = document.getElementById(tempArr[k]);
-                    toBePlayed.classList.add(playerTwo);
-                    toBePlayed.firstElementChild.src = playerTwoImg;
-                    toBePlayed.firstElementChild.style.display = 'block';
-                    toBePlayed.classList.add('clicked');
-                    happensOnce2 = false;
-                    playerOneTurn = true;
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-
         if (!playerOneTurn && openBoxes.length < 8) {
           console.log(counter);
           randomBox = randomNumber(0, openBoxes.length -1);       
@@ -186,6 +155,8 @@ var computerPlay = (playerOne, playerTwo) => {
 
         checkWin(playerTwo);
         playerOneTurn = true;
+        playerOneTurnKeeper.classList.add('visible-border');      
+        playerTwoTurnKeeper.classList.remove('visible-border');
     }, 500);
   }
 };

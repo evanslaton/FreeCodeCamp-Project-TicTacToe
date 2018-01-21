@@ -62,10 +62,11 @@ h1 {
   background-color: white;
   background-color: rgba(255, 255, 255, .6);
   font-size: 16px;
+  border: 2px solid transparent;
 }
 
 .visible-border {
-  border: 2px solid black;
+  border: 2px solid black !important;
 }
 
 .player-one {
